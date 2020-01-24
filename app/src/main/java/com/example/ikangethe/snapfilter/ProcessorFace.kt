@@ -13,7 +13,9 @@ class FaceProcessor(private val cameraView: CameraView, private val overlayView:
 
     private val detector = FirebaseVision.getInstance().getVisionFaceDetector(options)
 
+
     fun startProcessing(){
+
         cameraView.addFrameProcessor{frame ->
 
             if(frame.size != null){

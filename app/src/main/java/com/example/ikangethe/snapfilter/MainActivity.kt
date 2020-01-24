@@ -1,15 +1,19 @@
 package com.example.ikangethe.snapfilter
 
 import android.content.pm.PackageManager
+import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.view.WindowManager
+import com.example.ikangethe.snapfilter.databinding.ActivityMainBinding
 import com.otaliastudios.cameraview.CameraView
 
 class MainActivity : AppCompatActivity() {
 
     private val PERMISION_REQUEST_CODE = 3
+
+    lateinit var binding: ActivityMainBinding
 
     lateinit var  cameraview: CameraView
     lateinit var overlayView: OverlayView
@@ -17,13 +21,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        cameraview = findViewById(R.id.camera_view)
-        overlayView = findViewById(R.id.overlay_view)
-
-
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         checkCameraPermission()
     }
 
@@ -48,9 +48,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startFaceProcessor(){
-        lifecycle.addObserver(CameraLifeCycleObserver(cameraview))
+        lifecycle.addObserver(CameraLifeCycleObserver(binding.cameraView))
 
-        val faceProcessor = FaceProcessor(cameraview, overlayView)
+        val faceProcessor = FaceProcessor(binding.cameraView, binding.overlayView)
         faceProcessor.startProcessing()
     }
 }
